@@ -23,19 +23,11 @@ export async function middleware(request: NextRequest) {
     const token = request.cookies.get('token')?.value
     const pathname = request.nextUrl.pathname
 
-    console.log('Middleware check:', {
-        pathname,
-        hasToken: !!token,
-    })
 
     // Проверяем, является ли маршрут защищенным
     const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route))
     const isAdminRoute = adminRoutes.some(route => pathname.startsWith(route))
 
-    console.log('Route checks:', {
-        isProtectedRoute,
-        isAdminRoute
-    })
 
     if (!isProtectedRoute) {
         return NextResponse.next()
@@ -44,18 +36,14 @@ export async function middleware(request: NextRequest) {
     // Если нет токена, перенаправляем на страницу входа
     if (!token) {
         const loginUrl = isAdminRoute ? '/login/admin' : '/login/user'
-        console.log('No token, redirecting to:', loginUrl)
         return NextResponse.redirect(new URL(loginUrl, request.url))
     }
 
     try {
         // Проверяем токен и получаем данные пользователя
         const userData = await verifyToken(token)
-        console.log('User data:', userData)
-
         // Проверяем права доступа для админских маршрутов
         if (isAdminRoute && userData.role !== 'admin') {
-            console.log('Not admin, redirecting to login')
             const loginUrl = isAdminRoute ? '/login/admin' : '/login/user'
             return NextResponse.redirect(new URL(loginUrl, request.url))
         }
@@ -64,7 +52,6 @@ export async function middleware(request: NextRequest) {
     } catch (error) {
         // Если токен недействителен, перенаправляем на страницу входа
         const loginUrl = isAdminRoute ? '/login/admin' : '/login/user'
-        console.log('Invalid token, redirecting to:', loginUrl)
         return NextResponse.redirect(new URL(loginUrl, request.url))
     }
 }

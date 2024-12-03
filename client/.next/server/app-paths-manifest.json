@@ -1,6 +1,4 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/page": "app/page.js",
-  "/api/users/route": "app/api/users/route.js",
-  "/admin/dashboard/page": "app/admin/dashboard/page.js"
+  "/api/areas/create/route": "app/api/areas/create/route.js",
+  "/admin/areas/page": "app/admin/areas/page.js"
 }
