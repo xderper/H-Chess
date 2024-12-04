@@ -20,7 +20,8 @@ export async function POST(request: NextRequest) {
 
         const areaData = {
             name,
-            description
+            description,
+            pc: []
         };
 
         const area = await Area.create(areaData);

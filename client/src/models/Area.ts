@@ -14,6 +14,10 @@ const AreaSchema = new mongoose.Schema({
     required: true,
     minlength: 6
   },
+  pc: {
+    type: Array,
+    required: true
+  },
   createdAt: {
     type: Date,
     default: Date.now
