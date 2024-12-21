@@ -7,23 +7,11 @@ export const metadata: Metadata = {
   description: 'Full-stack TypeScript application',
 }
 
-export default function RootLayout({
-  children,
-}: {
+interface AdminLayoutProps {
   children: React.ReactNode
-}) {
-  return (
-    <AdminLayout>
-      {children}
-    </AdminLayout>
-  )
 }
 
-export function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+function AdminLayout({ children }: AdminLayoutProps) {
   return (
     <html lang="en">
       <body>
@@ -57,10 +45,24 @@ export function AdminLayout({
             </div>
           </div>
           <div className="container mx-auto">
-            {children}
+            <div className="admin-layout">
+              {children}
+            </div>
           </div>
         </div>
       </body>
     </html>
+  )
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <AdminLayout>
+      {children}
+    </AdminLayout>
   )
 }

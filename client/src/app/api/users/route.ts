@@ -4,9 +4,13 @@ import dbConnect from '@/lib/db'
 import User from '@/models/User'
 import { verifyToken } from '@/lib/auth'
 
+// Prevent static generation for this API route
+export const dynamic = 'force-dynamic'
+
 export async function GET(request: NextRequest) {
     try {
-        // Проверяем токен
+        await dbConnect()
+
         const token = request.cookies.get('token')?.value
         if (!token) {
             return NextResponse.json(
@@ -15,7 +19,7 @@ export async function GET(request: NextRequest) {
             )
         }
 
-        // Проверяем права доступа
+        // Verify token and check admin role
         const userData = await verifyToken(token)
         if (userData.role !== 'admin') {
             return NextResponse.json(
@@ -24,24 +28,13 @@ export async function GET(request: NextRequest) {
             )
         }
 
-        await dbConnect()
-
-        // Получаем список пользователей
+        // Get users list
         const users = await User.find({}, 'login role createdAt')
-
-        return NextResponse.json({
-            users: users.map(user => ({
-                id: user._id,
-                login: user.login,
-                role: user.role,
-                createdAt: user.createdAt
-            }))
-        })
-
+        return NextResponse.json(users)
     } catch (error) {
         console.error('Error fetching users:', error)
         return NextResponse.json(
-            { error: 'Failed to fetch users' },
+            { error: 'Internal server error' },
             { status: 500 }
         )
     }

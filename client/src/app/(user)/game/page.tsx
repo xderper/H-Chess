@@ -5,10 +5,10 @@ import { Chess } from 'chess.js';
 import { connectSocket } from '@/lib/socket';
 import { useSearchParams } from 'next/navigation';
 import styles from './game.module.css';
-import dynamic from 'next/dynamic';
+import { default as dynamicImport } from 'next/dynamic';
 
 // Import the Chessboard component with no SSR
-const Chessboard = dynamic(
+const Chessboard = dynamicImport(
   () => import('react-chessboard').then((mod) => {
     const { Chessboard } = mod;
     return Chessboard;
@@ -20,6 +20,9 @@ const Chessboard = dynamic(
     ),
   }
 );
+
+// Prevent static generation for this page
+export const dynamic = 'force-dynamic';
 
 export default function Game() {
   const [game, setGame] = useState<Chess>(new Chess());
@@ -93,20 +96,14 @@ export default function Game() {
 
       try {
         const newGame = new Chess();
-        const success = newGame.load(gameState);
-        
-        if (!success) {
-          console.error('Failed to load game state from server:', gameState);
-          socket.emit('request_game_state', roomId);
-          return;
-        }
-        
+        newGame.load(gameState);
         console.log('Successfully updated game state after move acceptance');
         console.log('New game FEN:', newGame.fen());
         setGame(newGame);
       } catch (error) {
-        console.error('Error updating game state:', error);
+        console.error('Failed to load game state from server:', gameState);
         socket.emit('request_game_state', roomId);
+        return;
       }
     });
 
@@ -126,8 +123,7 @@ export default function Game() {
 
       try {
         const newGame = new Chess();
-        const success = newGame.load(gameState);
-        
+        newGame.load(gameState);
         console.log('Successfully updated game state from opponent move');
         console.log('New game FEN:', newGame.fen());
         setGame(newGame);

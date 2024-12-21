@@ -26,6 +26,7 @@ export async function verifyToken(token: string) {
       token,
       new TextEncoder().encode(JWT_SECRET)
     );
+    
     return verified.payload as UserJwtPayload;
   } catch (err) {
     throw new Error('Invalid token');
