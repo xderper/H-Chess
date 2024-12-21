@@ -1,8 +1,6 @@
 {
-  "/api/areas/load/route": "app/api/areas/load/route.js",
-  "/api/areas/mac/add/route": "app/api/areas/mac/add/route.js",
-  "/api/areas/mac/delete/route": "app/api/areas/mac/delete/route.js",
-  "/api/areas/create/route": "app/api/areas/create/route.js",
-  "/api/areas/clear/route": "app/api/areas/clear/route.js",
-  "/admin/areas/page": "app/admin/areas/page.js"
+  "/api/games/route": "app/api/games/route.js",
+  "/(user)/page": "app/(user)/page.js",
+  "/(user)/game/page": "app/(user)/game/page.js",
+  "/admin/dashboard/page": "app/admin/dashboard/page.js"
 }
