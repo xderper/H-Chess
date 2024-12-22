@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, Suspense } from 'react';
 import { Chess } from 'chess.js';
 import { connectSocket } from '@/lib/socket';
 import { useSearchParams } from 'next/navigation';
@@ -24,7 +24,8 @@ const Chessboard = dynamicImport(
 // Prevent static generation for this page
 export const dynamic = 'force-dynamic';
 
-export default function Game() {
+// GameContent component that uses useSearchParams
+function GameContent() {
   const [game, setGame] = useState<Chess>(new Chess());
   const [playerColor, setPlayerColor] = useState<'white' | 'black'>('white');
   const [status, setStatus] = useState('');
@@ -276,5 +277,14 @@ export default function Game() {
         <p className={styles.status}>{status}</p>
       </div>
     </div>
+  );
+}
+
+// Main Game component wrapped in Suspense
+export default function Game() {
+  return (
+    <Suspense fallback={<div>Loading game...</div>}>
+      <GameContent />
+    </Suspense>
   );
 }
