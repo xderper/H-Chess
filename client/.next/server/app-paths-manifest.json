@@ -1,11 +1,6 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
   "/api/games/route": "app/api/games/route.js",
-  "/api/login/route": "app/api/login/route.js",
-  "/api/users/route": "app/api/users/route.js",
-  "/(user)/login/admin/page": "app/(user)/login/admin/page.js",
-  "/(user)/login/user/page": "app/(user)/login/user/page.js",
+  "/admin/dashboard/page": "app/admin/dashboard/page.js",
   "/(user)/page": "app/(user)/page.js",
-  "/(user)/game/page": "app/(user)/game/page.js",
-  "/admin/dashboard/page": "app/admin/dashboard/page.js"
+  "/(user)/game/page": "app/(user)/game/page.js"
 }

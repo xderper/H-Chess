@@ -1,4 +1,4 @@
-// File: C:\Users\artem\YandexDisk\IT\dev\client\src\app\api\games\route.ts
+// File: C:\Users\artem\YandexDisk\IT\development\client\src\app\api\games\route.ts
 import * as entry from '../../../../../src/app/api/games/route.js'
 import type { NextRequest } from 'next/server.js'
 
